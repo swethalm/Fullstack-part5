@@ -1,16 +1,16 @@
 import React from 'react'
 
-const LoginForm = ({  username, password, setUsername,setPassword,handleLogin }) => {
+const LoginForm = ({  username, password, handleUserChange,handlePwdChange,handleLogin }) => {
   return (
     <form onSubmit={handleLogin}>
       <h3>Please log in to access</h3>
       <div>
         Username
-        <input value={username} onChange={(event) => setUsername(event.target.value)} />
+        <input value={username} onChange={handleUserChange} />
       </div>
       <div>
         Password
-        <input type='password' value={password} onChange={(event) => setPassword(event.target.value)} />
+        <input type='password' value={password} onChange={handlePwdChange} />
       </div>
       <div>
         <button type='submit'>Login</button>

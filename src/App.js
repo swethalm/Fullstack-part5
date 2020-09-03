@@ -1,29 +1,21 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 
 import blogService from './services/blogs'
 import loginService from './services/login'
 
 const App = () => {
+  const blogFormRef = useRef()
   const [blogs, setBlogs] = useState([])
-  const [newTitle,setNewTitle] = useState('') 
-  const [newAuthor,setNewAuthor] = useState('') 
-  const [newUrl,setNewUrl] = useState('')
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [errorType,setErrorType]=useState('')
-
-  //reset state
-  const reset=()=>{
-    setNewTitle('')
-    setNewAuthor('')
-    setNewUrl('')
-    }
 
   //Initial blogs list
   useEffect(() => {
@@ -70,30 +62,31 @@ const App = () => {
     }
 
   //Create new blog
-  const addBlog = async (event) => {
-    event.preventDefault()
-    const blogObject = {
-                        title:newTitle,
-                        author:newAuthor,
-                        url:newUrl,
-                        }
-  
+  const addBlog1 = async (blogObject) => {
+    blogFormRef.current.toggleVisibility()
     const newlyAddedBlog= await blogService.create(blogObject)
     setBlogs(blogs.concat(newlyAddedBlog))
-    setErrorMessage(`Blog '${newTitle}' added`)
+    setErrorMessage(`Blog added`)
     setErrorType('success') 
-    reset()
   }
 
   //loginform
   const loginform = () =>
   (
-    <LoginForm user={user} username={username} password={password} setUsername={setUsername} setPassword={setPassword} handleLogin={handleLogin}  />
+    <Togglable buttonLabel='Log in'>
+    <LoginForm user={user} username={username}
+               password={password}
+               handleUserChange={({ target }) => setUsername(target.value)} 
+               handlePwdChange={({ target }) => setPassword(target.value)} 
+               handleLogin={handleLogin}  />
+    </Togglable>
   )
   //blogform
   const blogform = () =>
   (
-    <BlogForm newTitle={newTitle} newAuthor={newAuthor} newUrl= {newUrl} setNewTitle={setNewTitle} setNewAuthor={setNewAuthor} setNewUrl={setNewUrl} addBlog={addBlog}/>
+    <Togglable buttonLabel="Create new blog" ref={blogFormRef}>
+    <BlogForm createBlog={addBlog1}/>
+    </Togglable>
   )
   //blogslist
   const blogslist = () =>

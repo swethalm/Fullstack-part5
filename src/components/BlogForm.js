@@ -1,6 +1,26 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-const PersonForm=({newTitle,newAuthor,newUrl,setNewTitle, setNewAuthor,setNewUrl,addBlog})=>{
+const BlogForm=({createBlog})=>{
+
+    const [newTitle,setNewTitle] = useState('') 
+    const [newAuthor,setNewAuthor] = useState('') 
+    const [newUrl,setNewUrl] = useState('')
+
+    //reset state
+    const reset=()=>{
+    setNewTitle('')
+    setNewAuthor('')
+    setNewUrl('')
+    }
+    const addBlog =  (event) => {
+        event.preventDefault()
+        createBlog({
+                    title:newTitle,
+                    author:newAuthor,
+                    url:newUrl,
+                    })
+        reset()
+                }
 
     return(
       <form onSubmit={addBlog}>
@@ -21,4 +41,4 @@ const PersonForm=({newTitle,newAuthor,newUrl,setNewTitle, setNewAuthor,setNewUrl
     )
 }
 
-export default PersonForm
+export default BlogForm
