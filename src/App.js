@@ -70,6 +70,22 @@ const App = () => {
     setErrorType('success') 
   }
 
+  //Add likes
+  const addLike = async(event) =>
+  {
+    const idToUpdate = event.target.value
+    const blogToUpdate = blogs.find(b => b.id === idToUpdate)
+
+    const newBlog = {
+            ...blogToUpdate,
+            likes: blogToUpdate.likes + 1
+        }
+
+    const updatedBlog = await blogService.update(idToUpdate, newBlog)
+    setBlogs(blogs.map(blog => blog.id === idToUpdate ? updatedBlog:blog))
+    setErrorMessage(`Blog updated`)
+    setErrorType('success') 
+  }
   //loginform
   const loginform = () =>
   (
@@ -94,7 +110,7 @@ const App = () => {
     <div>
     <h3>Blogs List</h3>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} addLike={addLike} />
       )}
      </div> 
   )
