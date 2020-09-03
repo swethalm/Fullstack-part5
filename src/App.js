@@ -17,10 +17,16 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [errorType,setErrorType]=useState('')
 
+  //Compare likes- for sorting
+  function compareLikes(a,b)
+  {
+    return b.likes-a.likes
+  }
+
   //Initial blogs list
   useEffect(() => {
     blogService.getAll().then(blogs =>
-      setBlogs( blogs )
+      setBlogs( blogs.sort(compareLikes))
     )  
   }, [])
 
@@ -65,6 +71,12 @@ const App = () => {
   const addBlog1 = async (blogObject) => {
     blogFormRef.current.toggleVisibility()
     const newlyAddedBlog= await blogService.create(blogObject)
+    const addedBy = {
+      username: JSON.parse(window.localStorage.getItem('loggedUser')).username,
+      name: JSON.parse(window.localStorage.getItem('loggedUser')).name
+    }
+
+    newlyAddedBlog.user = addedBy
     setBlogs(blogs.concat(newlyAddedBlog))
     setErrorMessage(`Blog added`)
     setErrorType('success') 
@@ -82,9 +94,22 @@ const App = () => {
         }
 
     const updatedBlog = await blogService.update(idToUpdate, newBlog)
-    setBlogs(blogs.map(blog => blog.id === idToUpdate ? updatedBlog:blog))
+    setBlogs(blogs.map(blog => blog.id === idToUpdate ? updatedBlog:blog).sort(compareLikes))
     setErrorMessage(`Blog updated`)
     setErrorType('success') 
+  }
+
+  //delete blog
+  const deleteBlog = async (event) => {
+    const idToDelete = event.target.value
+    const blogToDelete = blogs.find(b => b.id === idToDelete)
+    if (window.confirm(`Delete ${blogToDelete.title} blog from list?`)) 
+    {
+        await blogService.remove(idToDelete)      
+        setBlogs(blogs.filter(blog => blog.id !== idToDelete))
+        setErrorMessage(`Deleted blog`)
+        setErrorType('success')
+    } 
   }
   //loginform
   const loginform = () =>
@@ -110,7 +135,7 @@ const App = () => {
     <div>
     <h3>Blogs List</h3>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} addLike={addLike} />
+        <Blog key={blog.id} blog={blog} addLike={addLike} deleteBlog={deleteBlog} user={user} />
       )}
      </div> 
   )
