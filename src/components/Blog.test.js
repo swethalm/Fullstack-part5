@@ -33,7 +33,7 @@ describe('Testing Blog component', () => {
     test('Blog renders title and author', () => {
         const title = component.getByText('Test Blog')
         expect(title).toBeDefined()
-        const author = component.getByText('test')
+        const author = component.getByText('by test')
         expect(author).toBeDefined()
     })
 

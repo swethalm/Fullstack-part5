@@ -7,14 +7,14 @@ const LoginForm = ({  username, password, handleUserChange,handlePwdChange,handl
       <h3>Please log in to access</h3>
       <div>
         Username
-        <input value={username} onChange={handleUserChange} />
+        <input id='username' value={username} onChange={handleUserChange} />
       </div>
       <div>
         Password
-        <input type='password' value={password} onChange={handlePwdChange} />
+        <input id='password' type='password' value={password} onChange={handlePwdChange} />
       </div>
       <div>
-        <button type='submit'>Login</button>
+        <button id='login-button' type='submit'>Login</button>
       </div>
     </form>
   )

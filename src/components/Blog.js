@@ -2,7 +2,6 @@ import PropTypes from 'prop-types'
 import React,{useState} from 'react'
 const Blog = ({ blog, addLike, deleteBlog, user}) => {
 
-  console.log('user:',user, 'bloguser',blog.user)
   const [blogVisible, setBlogVisible] = useState(false)
 
   const blogStyle = {
@@ -20,19 +19,18 @@ const Blog = ({ blog, addLike, deleteBlog, user}) => {
   return(
     <div style={blogStyle}>
       <div className='initalDetails'>
-        <p><b>Blog Title: </b>{blog.title}</p>
-        <p><b>Author: </b> {blog.author}</p>
-        <button onClick={toggleBlogVisible}>{label}</button>
+        <p>{blog.title}</p> <p>by {blog.author}</p>
+        <button id='togglable-button' onClick={toggleBlogVisible}>{label}</button>
       </div>
       <div style={blogVisibleStyle} className='togglableDetails'>
         <p><b>URL:</b> <a href={blog.url}>{blog.url}</a></p>
         <p><b>Likes:</b> {blog.likes} &nbsp;
-        <button onClick={addLike} value={ blog.id } > Like</button>
+        <button id='like-button' onClick={addLike} value={ blog.id } > Like</button>
         </p>
         
          {user.username===blog.user.username? 
               <div> 
-                <button value={ blog.id } onClick={ deleteBlog}>
+                <button id='del-button' value={ blog.id } onClick={ deleteBlog}>
                   Delete
                 </button>
               </div>
