@@ -11,6 +11,13 @@ test('BlogForm renders correct details', () => {
   )
 
   const author = component.container.querySelector('#author')
+  const form = component.container.querySelector('form')
 
-  expect(author.value).toBe('')
+  fireEvent.change(author, { 
+    target: { value: 'test' } 
+  })
+  fireEvent.submit(form)
+
+  expect(createBlog.mock.calls[0][0].author).toBe('test' )
+
 })

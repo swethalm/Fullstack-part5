@@ -36,20 +36,26 @@ describe('Blog app', function() {
             cy.get('html').should('contain', 'Deleted blog')
             })
 
-            it.only('Order blogs by likes', function() {             
+            it('Order blogs by likes', function() {   
+              
+              //should be second with 1 like
+              cy.get('#togglable-button').click()
+              cy.get('#like-button').click()
+              
+              //should be first with 10 like
+              cy.createBlog({
+                  title: 'Cypress blog3',
+                  author: 'cypress',
+                  url:'/test',
+                  likes: 10
+                })
+              //should be last with no likes
                 cy.createBlog({
-                    title: 'Cypress blog3',
-                    author: 'cypress',
-                    url:'/test'
-                  })
-                cy.contains('Cypress blog2').get('#togglable-button').click()
-                for(let i=1; i<6; i++){ 
-                cy.get('#like-button').click() }
-         
-                // cy.contains('Cypress blog3').get('#togglable-button').click()
-                //  for(let i=1; i<4; i++){ 
-                //  cy.focused().get('#like-button').click() }
-
+                  title: 'Cypress blog4',
+                  author: 'cypress',
+                  url:'/test',
+                  likes: 0
+                })
                 })
         })
     })

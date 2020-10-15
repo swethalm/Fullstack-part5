@@ -15,7 +15,6 @@ const Blog = ({ blog, addLike, deleteBlog, user}) => {
 
   const blogVisibleStyle ={ display:blogVisible ? '':'none'}
   const label = blogVisible ? 'Hide':'View'
-
   return(
     <div style={blogStyle}>
       <div className='initalDetails'>
@@ -27,7 +26,7 @@ const Blog = ({ blog, addLike, deleteBlog, user}) => {
         <p><b>Likes:</b> {blog.likes} &nbsp;
         <button id='like-button' onClick={addLike} value={ blog.id } > Like</button>
         </p>
-        
+      
          {user.username===blog.user.username? 
               <div> 
                 <button id='del-button' value={ blog.id } onClick={ deleteBlog}>

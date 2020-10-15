@@ -1,3 +1,4 @@
+
 describe('Blog app', function() {
     beforeEach(function() {
         cy.request('POST', 'http://localhost:3001/api/testing/reset')
@@ -45,8 +46,7 @@ describe('Blog app', function() {
       
   describe('When user logged in', function() {
     beforeEach(function() {
-      // log in user here
-      cy.contains('Log in').click()
+    cy.contains('Log in').click()
     cy.get('#username').type('testuser1')
     cy.get('#password').type('pass1')
     cy.get('#login-button').click()

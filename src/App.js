@@ -92,9 +92,10 @@ const App = () => {
             ...blogToUpdate,
             likes: blogToUpdate.likes + 1
         }
-
+        
     const updatedBlog = await blogService.update(idToUpdate, newBlog)
-    setBlogs(blogs.map(blog => blog.id === idToUpdate ? updatedBlog:blog).sort(compareLikes))
+    setBlogs(blogs.map(blog => blog.id === idToUpdate ? updatedBlog:blog))
+    await blogService.getAll().then(blogs =>setBlogs( blogs.sort(compareLikes))) 
     setErrorMessage(`Blog updated`)
     setErrorType('success') 
   }
